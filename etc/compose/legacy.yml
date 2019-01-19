@@ -310,7 +310,7 @@ services:
     ports:
      - "64297:64297"
     image: "dtagdevsec/nginx:1811"
-    read_only: true
+    read_only: false
     volumes:
      - /data/nginx/cert/:/etc/nginx/cert/:ro
      - /data/nginx/conf/nginxpasswd:/etc/nginx/nginxpasswd:ro
