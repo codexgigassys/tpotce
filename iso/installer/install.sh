@@ -16,7 +16,7 @@ Disclaimer:
 This script will install T-Pot on this system, by running the script you know what you are doing:
 1. SSH will be reconfigured to tcp/64295
 2. Some packages will be installed, some will be upgraded
-3. Please ensure other means of access to this system in case something goes wrong.
+3. Please ensure other means of access to this system in case somegfgthing goes wrong.
 4. At best this script well be executed on the console instead through a SSH session.
 
 ###########################################
@@ -560,7 +560,7 @@ hash -r 2>&1 | dialog --title "[ Installing pip ]" $myPROGRESSBOXCONF
 pip install elasticsearch-curator yq 2>&1 | dialog --title "[ Installing elasticsearch-curator, yq ]" $myPROGRESSBOXCONF
 wget https://github.com/bcicen/ctop/releases/download/v0.7.1/ctop-0.7.1-linux-amd64 -O /usr/bin/ctop 2>&1 | dialog --title "[ Installing ctop ]" $myPROGRESSBOXCONF
 chmod +x /usr/bin/ctop 2>&1 | dialog --title "[ Installing ctop ]" $myPROGRESSBOXCONF
-git clone https://github.com/dtag-dev-sec/tpotce /opt/tpot 2>&1 | dialog --title "[ Cloning T-Pot ]" $myPROGRESSBOXCONF
+git clone https://github.com/VPalacin/tpotce /opt/tpot 2>&1 | dialog --title "[ Cloning T-Pot ]" $myPROGRESSBOXCONF
 
 # Let's create the T-Pot user
 addgroup --gid 2000 tpot 2>&1 | dialog --title "[ Adding T-Pot user ]" $myPROGRESSBOXCONF
