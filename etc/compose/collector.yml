@@ -177,7 +177,6 @@ services:
 #     - /data:/data
 #     - /data/ews/conf/ews.ip:/opt/ewsposter/ews.ip
 
-
 # Nginx service
   nginx:
     container_name: nginx
