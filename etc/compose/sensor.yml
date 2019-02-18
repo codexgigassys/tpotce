@@ -428,14 +428,14 @@ services:
 ##################
 
 # Ewsposter service
-#  ewsposter:
-#    container_name: ewsposter
-#    restart: always
-#    networks:
-#     - ewsposter_local
-#    env_file:
-#     - /opt/tpot/etc/compose/elk_environment
-#    image: "dtagdevsec/ewsposter:1811"
-#    volumes:
-#     - /data:/data
-#     - /data/ews/conf/ews.ip:/opt/ewsposter/ews.ip
+  ewsposter:
+    container_name: ewsposter
+    restart: always
+    networks:
+     - ewsposter_local
+    env_file:
+     - /opt/tpot/etc/compose/elk_environment
+    image: "dtagdevsec/ewsposter:1811"
+    volumes:
+     - /data:/data
+     - /data/ews/conf/ews.ip:/opt/ewsposter/ews.ip

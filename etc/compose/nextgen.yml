@@ -502,17 +502,17 @@ services:
     read_only: true
 
 # Ewsposter service
-#  ewsposter:
-#    container_name: ewsposter
-#    restart: always
-#    networks:
-#     - ewsposter_local
-#    env_file:
-#     - /opt/tpot/etc/compose/elk_environment
-#    image: "dtagdevsec/ewsposter:1811"
-#    volumes:
-#     - /data:/data
-#     - /data/ews/conf/ews.ip:/opt/ewsposter/ews.ip
+  ewsposter:
+    container_name: ewsposter
+    restart: always
+    networks:
+     - ewsposter_local
+    env_file:
+     - /opt/tpot/etc/compose/elk_environment
+    image: "dtagdevsec/ewsposter:1811"
+    volumes:
+     - /data:/data
+     - /data/ews/conf/ews.ip:/opt/ewsposter/ews.ip
 
 # Nginx service
   nginx:
@@ -529,6 +529,7 @@ services:
     ports:
      - "64297:64297"
     image: "dtagdevsec/nginx:1811"
+    read_only: true
     volumes:
      - /data/nginx/cert/:/etc/nginx/cert/:ro
      - /data/nginx/conf/nginxpasswd:/etc/nginx/nginxpasswd:ro
