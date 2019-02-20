@@ -54,7 +54,7 @@ services:
     image: "dtagdevsec/logstash:1811"
     volumes:
      - /data:/data
-     - /root/tpotce/docker/elk/logstash/dist/logstash.conf:/etc/logstash/conf.d/logstash.conf
+     - ../tpotce/docker/elk/logstash/dist/logstash.conf:/etc/logstash/conf.d/logstash.conf
 
 ## Elasticsearch-head service
   head:
