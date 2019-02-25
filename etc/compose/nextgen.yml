@@ -488,6 +488,7 @@ services:
     image: "dtagdevsec/logstash:1811"
     volumes:
      - /data:/data
+     - /opt/tpot/docker/elk/logstash/dist/logstash.conf:/etc/logstash/conf.d/logstash.conf
 
 ## Elasticsearch-head service
   head:
@@ -529,6 +530,7 @@ services:
     ports:
      - "64297:64297"
     image: "dtagdevsec/nginx:1811"
+    read_only: false
     volumes:
      - /data/nginx/cert/:/etc/nginx/cert/:ro
      - /data/nginx/conf/nginxpasswd:/etc/nginx/nginxpasswd:ro
