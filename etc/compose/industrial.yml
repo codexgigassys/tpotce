@@ -330,8 +330,6 @@ services:
     volumes:
      - /data:/data
      - /opt/tpot/docker/elk/logstash/dist/logstash.conf:/etc/logstash/conf.d/logstash.conf
-    extra_hosts:
-     - patienZero: "https://0a939442a6c34896a6ab98f7cb475f3c.us-east-1.aws.found.io:9243"
 
 ## Elasticsearch-head service
   head:
