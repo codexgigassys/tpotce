@@ -1,0 +1,27 @@
+body {
+    bgcolor: black !important;
+
+}
+
+.global-nav {
+    bgcolor: black !important;
+}
+
+.global-nav-link.active {
+    bgcolor: green;
+}
+
+.global-nav-link:hover {
+    bgcolor: green;
+}
+
+.btn {
+    background: black;
+}
+
+.global-nav .logo-small.kibana, .global-nav .logo.kibana {
+    background-image: url(https://news.bitcoin.com/wp-content/uploads/2016/06/Deloitte.jpg);
+    background-position: 9px 0px;
+    background-size: 39%;
+    background-repeat: no-repeat;
+}
