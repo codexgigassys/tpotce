@@ -9,7 +9,7 @@ networks:
   heralding_local:
   mailoney_local:
   rdpy_local:
-  ewsposter_local:
+#  ewsposter_local:
   spiderfoot_local:
 
 services:
@@ -270,6 +270,7 @@ services:
     volumes:
      - /data:/data
      - /opt/tpot/docker/elk/logstash/dist:/etc/logstash/conf.d
+     - /opt/tpot/docker/elk/logstash/dist/logstash.conf:/etc/logstash/conf.d/logstash.conf
 
 ## Elasticsearch-head service
   head:

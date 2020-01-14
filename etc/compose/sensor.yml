@@ -15,7 +15,7 @@ networks:
   medpot_local:
   rdpy_local:
   tanner_local:
-  ewsposter_local:
+#  ewsposter_local:
   spiderfoot_local:
 
 services:
@@ -431,23 +431,23 @@ services:
 ##################
 
 # Ewsposter service
-  ewsposter:
-    container_name: ewsposter
-    restart: always
-    networks:
-     - ewsposter_local
-    environment:
-     - EWS_HPFEEDS_ENABLE=false
-     - EWS_HPFEEDS_HOST=host
-     - EWS_HPFEEDS_PORT=port
-     - EWS_HPFEEDS_CHANNELS=channels
-     - EWS_HPFEEDS_IDENT=user
-     - EWS_HPFEEDS_SECRET=secret
-     - EWS_HPFEEDS_TLSCERT=false
-     - EWS_HPFEEDS_FORMAT=json
-    env_file:
-     - /opt/tpot/etc/compose/elk_environment
-    image: "dtagdevsec/ewsposter:1903"
-    volumes:
-     - /data:/data
-     - /data/ews/conf/ews.ip:/opt/ewsposter/ews.ip
+#  ewsposter:
+#    container_name: ewsposter
+#    restart: always
+#    networks:
+#     - ewsposter_local
+#    environment:
+#     - EWS_HPFEEDS_ENABLE=false
+#     - EWS_HPFEEDS_HOST=host
+#     - EWS_HPFEEDS_PORT=port
+#     - EWS_HPFEEDS_CHANNELS=channels
+#     - EWS_HPFEEDS_IDENT=user
+#     - EWS_HPFEEDS_SECRET=secret
+#     - EWS_HPFEEDS_TLSCERT=false
+#     - EWS_HPFEEDS_FORMAT=json
+#    env_file:
+#     - /opt/tpot/etc/compose/elk_environment
+#    image: "dtagdevsec/ewsposter:1903"
+#    volumes:
+#     - /data:/data
+#     - /data/ews/conf/ews.ip:/opt/ewsposter/ews.ip
