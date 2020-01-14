@@ -1,10 +1,12 @@
-FROM alpine
-
+FROM alpine:3.10
+#
 # Get and install dependencies & packages
-RUN apk -U --no-cache add \
+RUN sed -i 's/dl-cdn/dl-2/g' /etc/apk/repositories && \
+    apk -U --no-cache add \
             build-base \
             curl \
             git \
+	    libffi-dev \
             libxml2 \
             libxml2-dev \
             libxslt \
@@ -13,33 +15,30 @@ RUN apk -U --no-cache add \
             openssl-dev \
             python \
             python-dev \
-            py-lxml \
-            py-netaddr \
-            py-mako \
-            py-markupsafe \
+	    py-cffi \
+	    py-pillow \
+            py-future \
             py-pip \
-            py-setuptools \
-            py-requests \
             swig && \
-    pip install --no-cache-dir --upgrade pip && \ 
-    pip install --no-cache-dir \
-                cherrypy \
-                bs4 \
-                m2crypto && \
-
+#
 # Setup user
     addgroup -g 2000 spiderfoot && \
     adduser -S -s /bin/ash -u 2000 -D -g 2000 spiderfoot && \
-
+#
 # Install spiderfoot 
-    git clone --depth=1 https://github.com/smicallef/spiderfoot -b v2.12.0-final /home/spiderfoot && \
+#    git clone --depth=1 https://github.com/smicallef/spiderfoot -b v2.12.0-final /home/spiderfoot && \
+    git clone --depth=1 https://github.com/smicallef/spiderfoot /home/spiderfoot && \
+    cd /home/spiderfoot && \
+    pip install --no-cache-dir openxmllib wheel && \ 
+    pip install --no-cache-dir -r requirements.txt && \ 
     chown -R spiderfoot:spiderfoot /home/spiderfoot && \
     sed -i "s#'__docroot': ''#'__docroot': '\/spiderfoot'#" /home/spiderfoot/sf.py && \
     sed -i 's#raise cherrypy.HTTPRedirect("\/")#raise cherrypy.HTTPRedirect("\/spiderfoot")#' /home/spiderfoot/sfwebui.py && \
-
+#
 # Clean up
     apk del --purge build-base \
                     git \
+		    libffi-dev \
                     libxml2-dev \
                     libxslt-dev \
                     openssl-dev \
@@ -47,10 +46,10 @@ RUN apk -U --no-cache add \
                     py-pip \
                     py-setuptools && \
     rm -rf /var/cache/apk/*
-
+#
 # Healthcheck
 HEALTHCHECK --retries=10 CMD curl -s -XGET 'http://127.0.0.1:8080'
-
+#
 # Set user, workdir and start spiderfoot
 USER spiderfoot:spiderfoot
 WORKDIR /home/spiderfoot

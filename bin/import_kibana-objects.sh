@@ -1,7 +1,7 @@
 #!/bin/bash
 # Import Kibana objects
 # Make sure ES is available
-myES="https://0a939442a6c34896a6ab98f7cb475f3c.us-east-1.aws.found.io:9243"
+myES="http://127.0.0.1:64298/"
 myKIBANA="http://127.0.0.1:64296/"
 myESSTATUS=$(curl -s -XGET ''$myES'_cluster/health' | jq '.' | grep -c green)
 if ! [ "$myESSTATUS" = "1" ]

@@ -76,9 +76,16 @@ echo
 
 # Let's check for version
 function fuCHECK_VERSION () {
-local myMINVERSION="18.04.0"
-local myMASTERVERSION="18.11.0"
+local myMINVERSION="19.03.0"
+local myMASTERVERSION="19.03.1"
 echo
+echo "### Checking for Release ID"
+myRELEASE=$(lsb_release -i | grep Debian -c)
+if [ "$myRELEASE" == "0" ] 
+  then
+    echo "###### This version of T-Pot cannot be upgraded automatically. Please run a fresh install.$myWHITE"" [ $myRED""NOT OK""$myWHITE ]"
+    exit
+fi
 echo "### Checking for version tag ..."
 if [ -f "version" ];
   then
@@ -168,35 +175,37 @@ echo
 }
 
 function fuUPDATER () {
-local myPACKAGES="apache2-utils apparmor apt-transport-https aufs-tools bash-completion build-essential ca-certificates cgroupfs-mount cockpit cockpit-docker curl debconf-utils dialog dnsutils docker.io docker-compose dstat ethtool fail2ban genisoimage git glances grc html2text htop iptables iw jq libcrack2 libltdl7 lm-sensors man mosh multitail net-tools npm ntp openssh-server openssl pass prips software-properties-common syslinux psmisc pv python-pip unattended-upgrades unzip vim wireless-tools wpasupplicant"
+export DEBIAN_FRONTEND=noninteractive
+echo "### Installing apt-fast"
+/bin/bash -c "$(curl -sL https://raw.githubusercontent.com/ilikenwf/apt-fast/master/quick-install.sh)"
+local myPACKAGES="aria2 apache2-utils apparmor apt-transport-https aufs-tools bash-completion build-essential ca-certificates cgroupfs-mount cockpit cockpit-docker console-setup console-setup-linux curl debconf-utils dialog dnsutils docker.io docker-compose ethtool fail2ban figlet genisoimage git glances grc haveged html2text htop iptables iw jq kbd libcrack2 libltdl7 man mosh multitail netselect-apt net-tools npm ntp openssh-server openssl pass pigz prips software-properties-common syslinux psmisc pv python3-pip toilet unattended-upgrades unzip vim wget wireless-tools wpasupplicant"
 echo "### Now upgrading packages ..."
 dpkg --configure -a
-apt-get -y autoclean
-apt-get -y autoremove
-apt-get update
-apt-get -y install $myPACKAGES
+apt-fast -y autoclean
+apt-fast -y autoremove
+apt-fast update
+apt-fast -y install $myPACKAGES
 
 # Some updates require interactive attention, and the following settings will override that.
 echo "docker.io docker.io/restart       boolean true" | debconf-set-selections -v
 echo "debconf debconf/frontend select noninteractive" | debconf-set-selections -v
-apt-get -y dist-upgrade -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" --force-yes
+apt-fast -y dist-upgrade -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" --force-yes
 dpkg --configure -a
 npm install "https://github.com/taskrabbit/elasticsearch-dump" -g
-pip install --upgrade pip
+pip3 install --upgrade elasticsearch-curator yq
 hash -r
-pip install --upgrade elasticsearch-curator yq
-wget https://github.com/bcicen/ctop/releases/download/v0.7.1/ctop-0.7.1-linux-amd64 -O /usr/bin/ctop && chmod +x /usr/bin/ctop
+echo "### Removing and holding back problematic packages ..."
+apt-fast -y purge exim4-base mailutils pcp cockpit-pcp
+apt-mark hold exim4-base mailutils pcp cockpit-pcp
 echo
 
 echo "### Now replacing T-Pot related config files on host"
 cp host/etc/systemd/* /etc/systemd/system/
-cp host/etc/issue /etc/
 systemctl daemon-reload
 echo
 
 # Ensure some defaults
 echo "### Ensure some T-Pot defaults with regard to some folders, permissions and configs."
-sed -i 's#ListenStream=9090#ListenStream=64294#' /lib/systemd/system/cockpit.socket
 sed -i '/^port/Id' /etc/ssh/sshd_config
 echo "Port 64295" >> /etc/ssh/sshd_config
 echo
@@ -209,10 +218,11 @@ mkdir -p /data/adbhoney/downloads /data/adbhoney/log \
          /data/dionaea/log /data/dionaea/bistreams /data/dionaea/binaries /data/dionaea/rtp /data/dionaea/roots/ftp /data/dionaea/roots/tftp /data/dionaea/roots/www /data/dionaea/roots/upnp \
          /data/elasticpot/log \
          /data/elk/data /data/elk/log \
-         /data/glastopf/log /data/glastopf/db \
+	 /data/fatt/log \
          /data/honeytrap/log/ /data/honeytrap/attacks/ /data/honeytrap/downloads/ \
          /data/glutton/log \
          /data/heralding/log \
+         /data/honeypy/log \
          /data/mailoney/log \
          /data/medpot/log \
          /data/nginx/log \
@@ -225,7 +235,7 @@ mkdir -p /data/adbhoney/downloads /data/adbhoney/log \
          /data/p0f/log
 
 ### Let's take care of some files and permissions
-chmod 760 -R /data
+chmod 770 -R /data
 chown tpot:tpot -R /data
 chmod 644 -R /data/nginx/conf
 chmod 644 -R /data/nginx/cert
@@ -234,11 +244,31 @@ echo "### Now pulling latest docker images"
 echo "######$myBLUE This might take a while, please be patient!$myWHITE"
 fuPULLIMAGES 2>&1>/dev/null
 
-fuREMOVEOLDIMAGES "1804"
+#fuREMOVEOLDIMAGES "1804"
 echo "### If you made changes to tpot.yml please ensure to add them again."
 echo "### We stored the previous version as backup in /root/."
-echo "### Done, please reboot."
-echo
+echo "### Some updates may need an import of the latest Kibana objects as well."
+echo "### Download the latest objects here if they recently changed:"
+echo "### https://raw.githubusercontent.com/dtag-dev-sec/tpotce/master/etc/objects/kibana_export.json.zip"
+echo "### Export and import the objects easily through the Kibana WebUI:"
+echo "### Go to Kibana > Management > Saved Objects > Export / Import"
+echo "### All objects will be overwritten upon import, make sure to run an export first."
+}
+
+function fuRESTORE_EWSCFG () {
+if [ -f '/data/ews/conf/ews.cfg' ] && ! grep 'ews.cfg' /opt/tpot/etc/tpot.yml > /dev/null; then
+    echo
+    echo "### Restoring volume mount for ews.cfg in tpot.yml"
+    sed -i '/\/opt\/ewsposter\/ews.ip/a\\ \ \ \ \ - /data/ews/conf/ews.cfg:/opt/ewsposter/ews.cfg' /opt/tpot/etc/tpot.yml
+fi
+}
+
+function fuRESTORE_HPFEEDS () {
+if [ -f '/data/ews/conf/hpfeeds.cfg' ]; then
+    echo
+    echo "### Restoring HPFEEDS in tpot.yml"
+    ./bin/hpfeeds_optin.sh --conf=/data/ews/conf/hpfeeds.cfg
+fi
 }
 
 
@@ -251,7 +281,6 @@ myWHOAMI=$(whoami)
 if [ "$myWHOAMI" != "root" ]
   then
     echo "Need to run as root ..."
-    sudo ./$0
     exit
 fi
 
@@ -267,8 +296,14 @@ fi
 
 fuCHECK_VERSION
 fuCONFIGCHECK
-fuCHECKINET "https://index.docker.io https://github.com https://pypi.python.org https://ubuntu.com"
+fuCHECKINET "https://index.docker.io https://github.com https://pypi.python.org https://debian.org"
 fuSTOP_TPOT
 fuBACKUP
 fuSELFUPDATE "$0" "$@"
 fuUPDATER
+fuRESTORE_EWSCFG
+fuRESTORE_HPFEEDS
+
+echo
+echo "### Please reboot."
+echo

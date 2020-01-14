@@ -1,10 +1,12 @@
 #!/bin/bash
 # T-Pot Container Data Cleaner & Log Rotator
-
 # Set colors
 myRED="[0;31m"
 myGREEN="[0;32m"
 myWHITE="[0;0m"
+
+# Set pigz
+myPIGZ=$(which pigz)
 
 # Set persistence
 myPERSISTENCE=$1
@@ -38,7 +40,7 @@ fuLOGROTATE () {
   local myTANNERFTGZ="/data/tanner/files.tgz"
 
 # Ensure correct permissions and ownerships for logrotate to run without issues
-chmod 760 /data/ -R
+chmod 770 /data/ -R
 chown tpot:tpot /data -R
 chmod 644 /data/nginx/conf -R
 chmod 644 /data/nginx/cert -R
@@ -47,17 +49,17 @@ chmod 644 /data/nginx/cert -R
 logrotate -f -s $mySTATUS $myCONF
 
 # Compressing some folders first and rotate them later
-if [ "$(fuEMPTY $myADBHONEYDL)" != "0" ]; then tar cvfz $myADBHONEYTGZ $myADBHONEYDL; fi
-if [ "$(fuEMPTY $myCOWRIETTYLOGS)" != "0" ]; then tar cvfz $myCOWRIETTYTGZ $myCOWRIETTYLOGS; fi
-if [ "$(fuEMPTY $myCOWRIEDL)" != "0" ]; then tar cvfz $myCOWRIEDLTGZ $myCOWRIEDL; fi
-if [ "$(fuEMPTY $myDIONAEABI)" != "0" ]; then tar cvfz $myDIONAEABITGZ $myDIONAEABI; fi
-if [ "$(fuEMPTY $myDIONAEABIN)" != "0" ]; then tar cvfz $myDIONAEABINTGZ $myDIONAEABIN; fi
-if [ "$(fuEMPTY $myHONEYTRAPATTACKS)" != "0" ]; then tar cvfz $myHONEYTRAPATTACKSTGZ $myHONEYTRAPATTACKS; fi
-if [ "$(fuEMPTY $myHONEYTRAPDL)" != "0" ]; then tar cvfz $myHONEYTRAPDLTGZ $myHONEYTRAPDL; fi
-if [ "$(fuEMPTY $myTANNERF)" != "0" ]; then tar cvfz $myTANNERFTGZ $myTANNERF; fi
+if [ "$(fuEMPTY $myADBHONEYDL)" != "0" ]; then tar -I $myPIGZ -cvf $myADBHONEYTGZ $myADBHONEYDL; fi
+if [ "$(fuEMPTY $myCOWRIETTYLOGS)" != "0" ]; then tar -I $myPIGZ -cvf $myCOWRIETTYTGZ $myCOWRIETTYLOGS; fi
+if [ "$(fuEMPTY $myCOWRIEDL)" != "0" ]; then tar -I $myPIGZ -cvf $myCOWRIEDLTGZ $myCOWRIEDL; fi
+if [ "$(fuEMPTY $myDIONAEABI)" != "0" ]; then tar -I $myPIGZ -cvf $myDIONAEABITGZ $myDIONAEABI; fi
+if [ "$(fuEMPTY $myDIONAEABIN)" != "0" ]; then tar -I $myPIGZ -cvf $myDIONAEABINTGZ $myDIONAEABIN; fi
+if [ "$(fuEMPTY $myHONEYTRAPATTACKS)" != "0" ]; then tar -I $myPIGZ -cvf $myHONEYTRAPATTACKSTGZ $myHONEYTRAPATTACKS; fi
+if [ "$(fuEMPTY $myHONEYTRAPDL)" != "0" ]; then tar -I $myPIGZ -cvf $myHONEYTRAPDLTGZ $myHONEYTRAPDL; fi
+if [ "$(fuEMPTY $myTANNERF)" != "0" ]; then tar -I $myPIGZ -cvf $myTANNERFTGZ $myTANNERF; fi
 
 # Ensure correct permissions and ownership for previously created archives
-chmod 760 $myADBHONEYTGZ $myCOWRIETTYTGZ $myCOWRIEDLTGZ $myDIONAEABITGZ $myDIONAEABINTGZ $myHONEYTRAPATTACKSTGZ $myHONEYTRAPDLTGZ $myTANNERFTGZ
+chmod 770 $myADBHONEYTGZ $myCOWRIETTYTGZ $myCOWRIEDLTGZ $myDIONAEABITGZ $myDIONAEABINTGZ $myHONEYTRAPATTACKSTGZ $myHONEYTRAPDLTGZ $myTANNERFTGZ
 chown tpot:tpot $myADBHONEYTGZ $myCOWRIETTYTGZ $myCOWRIEDLTGZ $myDIONAEABITGZ $myDIONAEABINTGZ $myHONEYTRAPATTACKSTGZ $myHONEYTRAPDLTGZ $myTANNERFTGZ
 
 # Need to remove subfolders since too many files cause rm to exit with errors
@@ -65,7 +67,7 @@ rm -rf $myADBHONEYDL $myCOWRIETTYLOGS $myCOWRIEDL $myDIONAEABI $myDIONAEABIN $my
 
 # Recreate subfolders with correct permissions and ownership
 mkdir -p $myADBHONEYDL $myCOWRIETTYLOGS $myCOWRIEDL $myDIONAEABI $myDIONAEABIN $myHONEYTRAPATTACKS $myHONEYTRAPDL $myTANNERF
-chmod 760 $myADBHONEYDL $myCOWRIETTYLOGS $myCOWRIEDL $myDIONAEABI $myDIONAEABIN $myHONEYTRAPATTACKS $myHONEYTRAPDL $myTANNERF
+chmod 770 $myADBHONEYDL $myCOWRIETTYLOGS $myCOWRIEDL $myDIONAEABI $myDIONAEABIN $myHONEYTRAPATTACKS $myHONEYTRAPDL $myTANNERF
 chown tpot:tpot $myADBHONEYDL $myCOWRIETTYLOGS $myCOWRIEDL $myDIONAEABI $myDIONAEABIN $myHONEYTRAPATTACKS $myHONEYTRAPDL $myTANNERF
 
 # Run logrotate again to account for previously created archives - DO NOT FORCE HERE!
@@ -76,7 +78,7 @@ logrotate -s $mySTATUS $myCONF
 fuADBHONEY () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/adbhoney/*; fi
   mkdir -p /data/adbhoney/log/ /data/adbhoney/downloads/
-  chmod 760 /data/adbhoney/ -R
+  chmod 770 /data/adbhoney/ -R
   chown tpot:tpot /data/adbhoney/ -R
 }
 
@@ -84,7 +86,7 @@ fuADBHONEY () {
 fuCISCOASA () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/ciscoasa/*; fi
   mkdir -p /data/ciscoasa/log
-  chmod 760 /data/ciscoasa -R
+  chmod 770 /data/ciscoasa -R
   chown tpot:tpot /data/ciscoasa -R
 }
 
@@ -92,7 +94,7 @@ fuCISCOASA () {
 fuCONPOT () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/conpot/*; fi
   mkdir -p /data/conpot/log
-  chmod 760 /data/conpot -R
+  chmod 770 /data/conpot -R
   chown tpot:tpot /data/conpot -R
 }
 
@@ -100,7 +102,7 @@ fuCONPOT () {
 fuCOWRIE () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/cowrie/*; fi
   mkdir -p /data/cowrie/log/tty/ /data/cowrie/downloads/ /data/cowrie/keys/ /data/cowrie/misc/
-  chmod 760 /data/cowrie -R
+  chmod 770 /data/cowrie -R
   chown tpot:tpot /data/cowrie -R
 }
 
@@ -108,7 +110,7 @@ fuCOWRIE () {
 fuDIONAEA () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/dionaea/*; fi
   mkdir -p /data/dionaea/log /data/dionaea/bistreams /data/dionaea/binaries /data/dionaea/rtp /data/dionaea/roots/ftp /data/dionaea/roots/tftp /data/dionaea/roots/www /data/dionaea/roots/upnp
-  chmod 760 /data/dionaea -R
+  chmod 770 /data/dionaea -R
   chown tpot:tpot /data/dionaea -R
 }
 
@@ -116,7 +118,7 @@ fuDIONAEA () {
 fuELASTICPOT () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/elasticpot/*; fi
   mkdir -p /data/elasticpot/log
-  chmod 760 /data/elasticpot -R
+  chmod 770 /data/elasticpot -R
   chown tpot:tpot /data/elasticpot -R
 }
 
@@ -126,23 +128,23 @@ fuELK () {
   # ELK daemon log files will be removed
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/elk/log/*; fi
   mkdir -p /data/elk
-  chmod 760 /data/elk -R
+  chmod 770 /data/elk -R
   chown tpot:tpot /data/elk -R
 }
 
-# Let's create a function to clean up and prepare glastopf data
-fuGLASTOPF () {
-  if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/glastopf/*; fi
-  mkdir -p /data/glastopf/db /data/glastopf/log
-  chmod 760 /data/glastopf -R
-  chown tpot:tpot /data/glastopf -R
+# Let's create a function to clean up and prepare fatt data
+fuFATT () {
+  if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/fatt/*; fi
+  mkdir -p /data/fatt/log
+  chmod 770 -R /data/fatt
+  chown tpot:tpot -R /data/fatt
 }
 
 # Let's create a function to clean up and prepare glastopf data
 fuGLUTTON () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/glutton/*; fi
   mkdir -p /data/glutton/log
-  chmod 760 /data/glutton -R
+  chmod 770 /data/glutton -R
   chown tpot:tpot /data/glutton -R
 }
 
@@ -150,15 +152,23 @@ fuGLUTTON () {
 fuHERALDING () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/heralding/*; fi
   mkdir -p /data/heralding/log
-  chmod 760 /data/heralding -R
+  chmod 770 /data/heralding -R
   chown tpot:tpot /data/heralding -R
+}
+
+# Let's create a function to clean up and prepare honeypy data
+fuHONEYPY () {
+  if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/honeypy/*; fi
+  mkdir -p /data/honeypy/log
+  chmod 770 /data/honeypy -R
+  chown tpot:tpot /data/honeypy -R
 }
 
 # Let's create a function to clean up and prepare honeytrap data
 fuHONEYTRAP () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/honeytrap/*; fi
   mkdir -p /data/honeytrap/log/ /data/honeytrap/attacks/ /data/honeytrap/downloads/
-  chmod 760 /data/honeytrap/ -R
+  chmod 770 /data/honeytrap/ -R
   chown tpot:tpot /data/honeytrap/ -R
 }
 
@@ -166,7 +176,7 @@ fuHONEYTRAP () {
 fuMAILONEY () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/mailoney/*; fi
   mkdir -p /data/mailoney/log/
-  chmod 760 /data/mailoney/ -R
+  chmod 770 /data/mailoney/ -R
   chown tpot:tpot /data/mailoney/ -R
 }
 
@@ -174,7 +184,7 @@ fuMAILONEY () {
 fuMEDPOT () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/medpot/*; fi
   mkdir -p /data/medpot/log/
-  chmod 760 /data/medpot/ -R
+  chmod 770 /data/medpot/ -R
   chown tpot:tpot /data/medpot/ -R
 }
 
@@ -190,7 +200,7 @@ fuNGINX () {
 fuRDPY () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/rdpy/*; fi
   mkdir -p /data/rdpy/log/
-  chmod 760 /data/rdpy/ -R
+  chmod 770 /data/rdpy/ -R
   chown tpot:tpot /data/rdpy/ -R
 }
 
@@ -198,7 +208,7 @@ fuRDPY () {
 fuSPIDERFOOT () {
   mkdir -p /data/spiderfoot
   touch /data/spiderfoot/spiderfoot.db
-  chmod 760 -R /data/spiderfoot
+  chmod 770 -R /data/spiderfoot
   chown tpot:tpot -R /data/spiderfoot
 }
 
@@ -206,7 +216,7 @@ fuSPIDERFOOT () {
 fuSURICATA () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/suricata/*; fi
   mkdir -p /data/suricata/log
-  chmod 760 -R /data/suricata
+  chmod 770 -R /data/suricata
   chown tpot:tpot -R /data/suricata
 }
 
@@ -214,7 +224,7 @@ fuSURICATA () {
 fuP0F () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/p0f/*; fi
   mkdir -p /data/p0f/log
-  chmod 760 -R /data/p0f
+  chmod 770 -R /data/p0f
   chown tpot:tpot -R /data/p0f
 }
 
@@ -222,7 +232,7 @@ fuP0F () {
 fuTANNER () {
   if [ "$myPERSISTENCE" != "on" ]; then rm -rf /data/tanner/*; fi
   mkdir -p /data/tanner/log /data/tanner/files
-  chmod 760 -R /data/tanner
+  chmod 770 -R /data/tanner
   chown tpot:tpot -R /data/tanner
 }
 
@@ -255,9 +265,10 @@ if [ "$myPERSISTENCE" = "on" ];
     fuDIONAEA
     fuELASTICPOT
     fuELK
-    fuGLASTOPF
+    fuFATT
     fuGLUTTON
     fuHERALDING
+    fuHONEYPY
     fuHONEYTRAP
     fuMAILONEY
     fuMEDPOT

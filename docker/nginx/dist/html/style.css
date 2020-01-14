@@ -5,7 +5,7 @@
   font-family: Arial;
   color: #ffffff;
   font-size: 12px;
-    background: #000;
+  background: #E20074;
   padding: 2px 30px 2px 30px;
   text-decoration: none;
 }
@@ -15,21 +15,3 @@
   text-decoration: none;
 }
 
-.global-nav {
-    background-color: #000 !important;
-}
-
-.global-nav-link.active {
-    background-color: green !important;
-}
-
-.global-nav-link:hover {
-    background-color: green !important;
-}
-
-.global-nav .logo-small.kibana, .global-nav .logo.kibana {
-    background-image: url(https://pbs.twimg.com/profile_images/1053567624431448068/6e_HQk8U_400x400.jpg) !important;
-    background-position: 0px 0px !important;
-    background-size: 45% !important;
-    background-repeat: no-repeat; 
-}
