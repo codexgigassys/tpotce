@@ -96,7 +96,7 @@ Import your SSH public key.
 <a name="clone-git"></a>
 # Clone Git Repository
 Clone the `tpotce` repository to your Ansible Master:  
-`git clone https://github.com/dtag-dev-sec/tpotce.git`  
+`git clone https://github.com/codexgigassys/tpotce.git`  
 All Ansible related files are located in the [`cloud/ansible/openstack`](../../cloud/ansible/openstack) folder.
 
 <a name="settings"></a>

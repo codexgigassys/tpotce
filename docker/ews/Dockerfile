@@ -22,7 +22,7 @@ RUN apk -U --no-cache add \
     pip3 install --no-cache-dir configparser hpfeeds3 pyOpenSSL xmljson && \
 #
 # Setup ewsposter
-    git clone --depth=1 https://github.com/dtag-dev-sec/ewsposter /opt/ewsposter && \
+    git clone --depth=1 https://github.com/codexgigassys/tpotce /opt/ewsposter && \
     mkdir -p /opt/ewsposter/spool /opt/ewsposter/log && \
 #
 # Setup user and groups

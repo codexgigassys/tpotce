@@ -45,7 +45,7 @@ myCONF_WEB_USER='webuser'
 myCONF_WEB_PW='w3b$ecret'
 ```
 
-This will be used to configure credentials for the T-Pot Kibana interface. Refer to [Options](https://github.com/dtag-dev-sec/tpotce#options) for more information.
+This will be used to configure credentials for the T-Pot Kibana interface. Refer to [Options](https://github.com/codexgigassys/tpotce#options) for more information.
 
 ## Initialising
 
@@ -128,4 +128,4 @@ Prior to the final reboot, you will temporarily be able to SSH to port 22 as per
 
 https://www.example.com:64297/
 
-Replace with the FQDN of your EC2 instance. Refer to the [T-POT documentation](https://github.com/dtag-dev-sec/tpotce#ssh-and-web-access) for further details.
+Replace with the FQDN of your EC2 instance. Refer to the [T-POT documentation](https://github.com/codexgigassys/tpotce#ssh-and-web-access) for further details.
