@@ -309,7 +309,7 @@ services:
      - /run
     network_mode: "host"
     ports:
-     - "64297:64297"
+     - "7017:7017"
     image: "dtagdevsec/nginx:1811"
     read_only: false
     volumes:

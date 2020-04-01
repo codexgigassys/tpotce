@@ -14,7 +14,7 @@ myINFO="\
 
 Disclaimer:
 This script will install T-Pot on this system, by running the script you know what you are doing:
-1. SSH will be reconfigured to tcp/64295
+1. SSH will be reconfigured to tcp/7014
 2. Some packages will be installed, some will be upgraded
 3. Please ensure other means of access to this system in case something goes wrong.
 4. At best this script well be executed on the console instead through a SSH session.
@@ -578,9 +578,9 @@ if [ -f "/etc/cloud/cloud.cfg" ];
 fi
 
 # Let's patch cockpit.socket, sshd_config
-sed -i 's#ListenStream=9090#ListenStream=64294#' /lib/systemd/system/cockpit.socket 2>&1 | dialog --title "[ Cockpit listen on tcp/64294 ]" $myPROGRESSBOXCONF
-sed -i '/^port/Id' /etc/ssh/sshd_config 2>&1 | dialog --title "[ SSH listen on tcp/64295 ]" $myPROGRESSBOXCONF
-echo "Port 64295" >> /etc/ssh/sshd_config 2>&1 | dialog --title "[ SSH listen on tcp/64295 ]" $myPROGRESSBOXCONF
+sed -i 's#ListenStream=9090#ListenStream=7012#' /lib/systemd/system/cockpit.socket 2>&1 | dialog --title "[ Cockpit listen on tcp/7012 ]" $myPROGRESSBOXCONF
+sed -i '/^port/Id' /etc/ssh/sshd_config 2>&1 | dialog --title "[ SSH listen on tcp/7014 ]" $myPROGRESSBOXCONF
+echo "Port 7014" >> /etc/ssh/sshd_config 2>&1 | dialog --title "[ SSH listen on tcp/7014 ]" $myPROGRESSBOXCONF
 
 # Let's make sure only myCONF_TPOT_FLAVOR images will be downloaded and started
 case $myCONF_TPOT_FLAVOR in
@@ -650,18 +650,18 @@ maxretry = 5
 [nginx-http-auth]
 enabled  = true
 filter   = nginx-http-auth
-port     = 64297
+port     = 7017
 logpath  = /data/nginx/log/error.log
 
 [pam-generic]
 enabled = true
-port    = 64294
+port    = 7012
 filter  = pam-generic
 logpath = /var/log/auth.log
 
 [sshd]
 enabled = true
-port    = 64295
+port    = 7014
 filter  = sshd
 logpath = /var/log/auth.log
 "

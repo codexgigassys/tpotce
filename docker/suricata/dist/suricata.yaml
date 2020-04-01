@@ -38,7 +38,7 @@ vars:
     HTTP_PORTS: "80,8080,8081"
     SHELLCODE_PORTS: "!80,!8080,!8081"
     ORACLE_PORTS: "1433,1521,3306"
-    SSH_PORTS: "22,64295"
+    SSH_PORTS: "22,7014"
     DNP3_PORTS: 20000
     MODBUS_PORTS: 502
 
@@ -658,7 +658,7 @@ app-layer:
     tls:
       enabled: yes
       detection-ports:
-        dp: "443,64297"
+        dp: "443,7017"
 
       # Completely stop processing TLS/SSL session after the handshake
       # completed. If bypass is enabled this will also trigger flow
