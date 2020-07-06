@@ -9,11 +9,11 @@ services:
   spiderfoot:
     build: .
     container_name: spiderfoot
-    restart: always
+    #restart: always
     networks:
      - spiderfoot_local
     ports:
      - "127.0.0.1:64303:8080"
-    image: "dtagdevsec/spiderfoot:1811"
+    image: "dtagdevsec/spiderfoot:2006"
     volumes:
      - /data/spiderfoot/spiderfoot.db:/home/spiderfoot/spiderfoot.db

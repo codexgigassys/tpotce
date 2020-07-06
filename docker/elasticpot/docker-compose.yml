@@ -9,12 +9,12 @@ services:
   elasticpot:
     build: .
     container_name: elasticpot
-    restart: always
+    #restart: always
     networks:
      - elasticpot_local
     ports:
      - "9200:9200"
-    image: "dtagdevsec/elasticpot:1811"
+    image: "dtagdevsec/elasticpot:2006"
     read_only: true
     volumes:
      - /data/elasticpot/log:/opt/ElasticpotPY/log

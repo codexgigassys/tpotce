@@ -7,7 +7,7 @@ services:
   elasticsearch:
     build: .
     container_name: elasticsearch
-    restart: always
+    #restart: always
     environment:
      - bootstrap.memory_lock=true
      - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
@@ -24,6 +24,6 @@ services:
     mem_limit: 2g
     ports:
      - "127.0.0.1:64298:9200"
-    image: "dtagdevsec/elasticsearch:1811"
+    image: "dtagdevsec/elasticsearch:2006"
     volumes:
      - /data:/data

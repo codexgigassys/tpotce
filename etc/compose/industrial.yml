@@ -24,9 +24,8 @@ services:
 
 # Conpot default service
   conpot_default:
-    build: .
     container_name: conpot_default
-    restart: always
+    #restart: always
     environment:
      - CONPOT_CONFIG=/etc/conpot/conpot.cfg
      - CONPOT_JSON_LOG=/var/log/conpot/conpot_default.json
@@ -47,7 +46,7 @@ services:
      - "21:21"
      - "44818:44818"
      - "47808:47808"
-    image: "dtagdevsec/conpot:1811"
+    image: "dtagdevsec/conpot:1903"
     read_only: true
     volumes:
      - /data/conpot/log:/var/log/conpot
@@ -55,7 +54,7 @@ services:
 # Conpot IEC104 service
   conpot_IEC104:
     container_name: conpot_iec104
-    restart: always
+    #restart: always
     environment:
      - CONPOT_CONFIG=/etc/conpot/conpot.cfg
      - CONPOT_JSON_LOG=/var/log/conpot/conpot_IEC104.json
@@ -69,7 +68,7 @@ services:
     ports:
 #     - "161:161"
      - "2404:2404"
-    image: "dtagdevsec/conpot:1811"
+    image: "dtagdevsec/conpot:1903"
     read_only: true
     volumes:
      - /data/conpot/log:/var/log/conpot
@@ -77,7 +76,7 @@ services:
 # Conpot guardian_ast service
   conpot_guardian_ast:
     container_name: conpot_guardian_ast
-    restart: always
+    #restart: always
     environment:
      - CONPOT_CONFIG=/etc/conpot/conpot.cfg
      - CONPOT_JSON_LOG=/var/log/conpot/conpot_guardian_ast.json
@@ -90,7 +89,7 @@ services:
      - conpot_local_guardian_ast
     ports:
      - "10001:10001"
-    image: "dtagdevsec/conpot:1811"
+    image: "dtagdevsec/conpot:1903"
     read_only: true
     volumes:
      - /data/conpot/log:/var/log/conpot
@@ -98,7 +97,7 @@ services:
 # Conpot ipmi
   conpot_ipmi:
     container_name: conpot_ipmi
-    restart: always
+    #restart: always
     environment:
      - CONPOT_CONFIG=/etc/conpot/conpot.cfg
      - CONPOT_JSON_LOG=/var/log/conpot/conpot_ipmi.json
@@ -111,7 +110,7 @@ services:
      - conpot_local_ipmi
     ports:
      - "623:623"
-    image: "dtagdevsec/conpot:1811"
+    image: "dtagdevsec/conpot:1903"
     read_only: true
     volumes:
      - /data/conpot/log:/var/log/conpot
@@ -119,7 +118,7 @@ services:
 # Conpot kamstrup_382
   conpot_kamstrup_382:
     container_name: conpot_kamstrup_382
-    restart: always
+    #restart: always
     environment:
      - CONPOT_CONFIG=/etc/conpot/conpot.cfg
      - CONPOT_JSON_LOG=/var/log/conpot/conpot_kamstrup_382.json
@@ -133,7 +132,7 @@ services:
     ports:
      - "1025:1025"
      - "50100:50100"
-    image: "dtagdevsec/conpot:1811"
+    image: "dtagdevsec/conpot:1903"
     read_only: true
     volumes:
      - /data/conpot/log:/var/log/conpot
@@ -141,7 +140,7 @@ services:
 # Cowrie service
   cowrie:
     container_name: cowrie
-    restart: always
+    #restart: always
     tmpfs:
      - /tmp/cowrie:uid=2000,gid=2000
      - /tmp/cowrie/data:uid=2000,gid=2000
@@ -150,7 +149,7 @@ services:
     ports:
      - "22:22"
      - "23:23"
-    image: "dtagdevsec/cowrie:1811"
+    image: "dtagdevsec/cowrie:1903"
     read_only: true
     volumes:
      - /data/cowrie/downloads:/home/cowrie/cowrie/dl
@@ -161,7 +160,7 @@ services:
 # Heralding service
   heralding:
     container_name: heralding
-    restart: always
+    #restart: always
     tmpfs:
      - /tmp/heralding:uid=2000,gid=2000
     networks:
@@ -177,9 +176,11 @@ services:
     # - "443:443"
     # - "993:993"
     # - "995:995"
+    # - "3306:3306"
+    # - "3389:3389"
     # - "5432:5432"
      - "5900:5900"
-    image: "dtagdevsec/heralding:1811"
+    image: "dtagdevsec/heralding:1903"
     read_only: true
     volumes:
      - /data/heralding/log:/var/log/heralding
@@ -187,13 +188,13 @@ services:
 # Honeytrap service
   honeytrap:
     container_name: honeytrap
-    restart: always
+    #restart: always
     tmpfs:
      - /tmp/honeytrap:uid=2000,gid=2000
     network_mode: "host"
     cap_add:
      - NET_ADMIN
-    image: "dtagdevsec/honeytrap:1811"
+    image: "dtagdevsec/honeytrap:1903"
     read_only: true
     volumes:
      - /data/honeytrap/attacks:/opt/honeytrap/var/attacks
@@ -203,12 +204,12 @@ services:
 # Medpot service
   medpot:
     container_name: medpot
-    restart: always
+    #restart: always
     networks:
      - medpot_local
     ports:
      - "2575:2575"
-    image: "dtagdevsec/medpot:1811"
+    image: "dtagdevsec/medpot:1903"
     read_only: true
     volumes:
      - /data/medpot/log/:/var/log/medpot
@@ -218,7 +219,7 @@ services:
     container_name: rdpy
     extra_hosts:
      - hpfeeds.example.com:127.0.0.1
-    restart: always
+    #restart: always
     environment:
      - HPFEEDS_SERVER=hpfeeds.example.com
      - HPFEEDS_IDENT=user
@@ -229,7 +230,7 @@ services:
      - rdpy_local
     ports:
      - "3389:3389"
-    image: "dtagdevsec/rdpy:1811"
+    image: "dtagdevsec/rdpy:1903"
     read_only: true
     volumes:
      - /data/rdpy/log:/var/log/rdpy
@@ -242,9 +243,9 @@ services:
 # P0f service
   p0f:
     container_name: p0f
-    restart: always
+    #restart: always
     network_mode: "host"
-    image: "dtagdevsec/p0f:1811"
+    image: "dtagdevsec/p0f:1903"
     read_only: true
     volumes:
      - /data/p0f/log:/var/log/p0f
@@ -252,7 +253,7 @@ services:
 # Suricata service
   suricata:
     container_name: suricata
-    restart: always
+    #restart: always
     environment:
     # For ET Pro ruleset replace "OPEN" with your OINKCODE
      - OINKCODE=OPEN
@@ -261,7 +262,7 @@ services:
      - NET_ADMIN
      - SYS_NICE
      - NET_RAW
-    image: "dtagdevsec/suricata:1811"
+    image: "dtagdevsec/suricata:1903"
     volumes:
      - /data/suricata/log:/var/log/suricata
 
@@ -273,19 +274,19 @@ services:
 # Cyberchef service
   cyberchef:
     container_name: cyberchef
-    restart: always
+    #restart: always
     networks:
      - cyberchef_local
     ports:
      - "127.0.0.1:64299:8000"
-    image: "dtagdevsec/cyberchef:1811"
+    image: "dtagdevsec/cyberchef:1903"
     read_only: true
 
 #### ELK
 ## Elasticsearch service
   elasticsearch:
     container_name: elasticsearch
-    restart: always
+    #restart: always
     environment:
      - bootstrap.memory_lock=true
      - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
@@ -302,64 +303,72 @@ services:
     mem_limit: 4g
     ports:
      - "127.0.0.1:64298:9200"
-    image: "dtagdevsec/elasticsearch:1811"
+    image: "dtagdevsec/elasticsearch:1903"
     volumes:
      - /data:/data
 
 ## Kibana service
   kibana:
     container_name: kibana
-    restart: always
+    #restart: always
     depends_on:
       elasticsearch:
         condition: service_healthy
     ports:
      - "127.0.0.1:64296:5601"
-    image: "dtagdevsec/kibana:1811"
+    image: "dtagdevsec/kibana:1903"
 
 ## Logstash service
   logstash:
     container_name: logstash
-    restart: always
+    #restart: always
     depends_on:
       elasticsearch:
         condition: service_healthy
     env_file:
      - /opt/tpot/etc/compose/elk_environment
-    image: "dtagdevsec/logstash:1811"
+    image: "dtagdevsec/logstash:1903"
     volumes:
      - /data:/data
-     - /opt/tpot/docker/elk/logstash/dist/logstash.conf:/etc/logstash/conf.d/logstash.conf
 
 ## Elasticsearch-head service
   head:
     container_name: head
-    restart: always
+    #restart: always
     depends_on:
       elasticsearch:
         condition: service_healthy
     ports:
      - "127.0.0.1:64302:9100"
-    image: "dtagdevsec/head:1811"
+    image: "dtagdevsec/head:1903"
     read_only: true
 
 # Ewsposter service
-#  ewsposter:
-#    container_name: ewsposter
-#    restart: always
-#    networks:
-#     - ewsposter_local
-#    env_file:
-#     - /opt/tpot/etc/compose/elk_environment
-#    image: "dtagdevsec/ewsposter:1811"
-#    volumes:
-#     - /data:/data
-#     - /data/ews/conf/ews.ip:/opt/ewsposter/ews.ip
+  ewsposter:
+    container_name: ewsposter
+    #restart: always
+    networks:
+     - ewsposter_local
+    environment:
+     - EWS_HPFEEDS_ENABLE=false
+     - EWS_HPFEEDS_HOST=host
+     - EWS_HPFEEDS_PORT=port
+     - EWS_HPFEEDS_CHANNELS=channels
+     - EWS_HPFEEDS_IDENT=user
+     - EWS_HPFEEDS_SECRET=secret
+     - EWS_HPFEEDS_TLSCERT=false
+     - EWS_HPFEEDS_FORMAT=json
+    env_file:
+     - /opt/tpot/etc/compose/elk_environment
+    image: "dtagdevsec/ewsposter:1903"
+    volumes:
+     - /data:/data
+     - /data/ews/conf/ews.ip:/opt/ewsposter/ews.ip
 
 # Nginx service
   nginx:
     container_name: nginx
-    restart: always
+    #restart: always
     tmpfs:
      - /var/tmp/nginx/client_body
      - /var/tmp/nginx/proxy
@@ -370,8 +379,8 @@ services:
     network_mode: "host"
     ports:
      - "7017:7017"
-    image: "dtagdevsec/nginx:1811"
-    read_only: false
+    image: "dtagdevsec/nginx:1903"
+    read_only: true
     volumes:
      - /data/nginx/cert/:/etc/nginx/cert/:ro
      - /data/nginx/conf/nginxpasswd:/etc/nginx/nginxpasswd:ro
@@ -380,11 +389,11 @@ services:
 # Spiderfoot service
   spiderfoot:
     container_name: spiderfoot
-    restart: always
+    #restart: always
     networks:
      - spiderfoot_local
     ports:
      - "127.0.0.1:64303:8080"
-    image: "dtagdevsec/spiderfoot:1811"
+    image: "dtagdevsec/spiderfoot:1903"
     volumes:
      - /data/spiderfoot/spiderfoot.db:/home/spiderfoot/spiderfoot.db

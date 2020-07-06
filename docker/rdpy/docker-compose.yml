@@ -11,7 +11,7 @@ services:
     container_name: rdpy
     extra_hosts:
      - hpfeeds.example.com:127.0.0.1
-    restart: always
+    #restart: always
     environment:
      - HPFEEDS_SERVER=hpfeeds.example.com
      - HPFEEDS_IDENT=user
@@ -22,7 +22,7 @@ services:
      - rdpy_local
     ports:
      - "3389:3389"
-    image: "dtagdevsec/rdpy:1811"
+    image: "dtagdevsec/rdpy:2006"
     read_only: true
     volumes:
      - /data/rdpy/log:/var/log/rdpy

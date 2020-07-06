@@ -9,38 +9,40 @@ services:
   tanner_redis:
     build: ./redis
     container_name: tanner_redis
-    restart: always
+    #restart: always
     stop_signal: SIGKILL
     tty: true
     networks:
      - tanner_local
-    image: "dtagdevsec/redis:1811"
+    image: "dtagdevsec/redis:2006"
     read_only: true
 
 # PHP Sandbox service
   tanner_phpox:
     build: ./phpox
     container_name: tanner_phpox
-    restart: always
+    #restart: always
     stop_signal: SIGKILL
+    tmpfs:
+     - /tmp:uid=2000,gid=2000
     tty: true
     networks:
      - tanner_local
-    image: "dtagdevsec/phpox:1811"
+    image: "dtagdevsec/phpox:2006"
     read_only: true
 
 # Tanner API Service
   tanner_api:
     build: ./tanner
     container_name: tanner_api
-    restart: always
+    #restart: always
     stop_signal: SIGKILL
     tmpfs:
      - /tmp/tanner:uid=2000,gid=2000
     tty: true
     networks:
      - tanner_local
-    image: "dtagdevsec/tanner:1811"
+    image: "dtagdevsec/tanner:2006"
     read_only: true
     volumes:
      - /data/tanner/log:/var/log/tanner
@@ -52,14 +54,16 @@ services:
   tanner_web:
     build: ./tanner
     container_name: tanner_web
-    restart: always
+    #restart: always
     stop_signal: SIGKILL
     tmpfs:
      - /tmp/tanner:uid=2000,gid=2000
     tty: true
     networks:
      - tanner_local
-    image: "dtagdevsec/tanner:1811"
+#    ports:
+#     - "127.0.0.1:8091:8091"
+    image: "dtagdevsec/tanner:2006"
     command: tannerweb
     read_only: true
     volumes:
@@ -71,14 +75,14 @@ services:
   tanner:
     build: ./tanner
     container_name: tanner
-    restart: always
+    #restart: always
     stop_signal: SIGKILL
     tmpfs:
      - /tmp/tanner:uid=2000,gid=2000
     tty: true
     networks:
      - tanner_local
-    image: "dtagdevsec/tanner:1811"
+    image: "dtagdevsec/tanner:2006"
     command: tanner
     read_only: true
     volumes:
@@ -93,13 +97,13 @@ services:
   snare:
     build: ./snare
     container_name: snare
-    restart: always
+    #restart: always
     stop_signal: SIGKILL
     tty: true
     networks:
      - tanner_local
     ports:
      - "80:80"
-    image: "dtagdevsec/snare:1811"
+    image: "dtagdevsec/snare:2006"
     depends_on:
      - tanner

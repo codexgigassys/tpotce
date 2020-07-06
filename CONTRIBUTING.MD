@@ -4,9 +4,9 @@ Thank you for your decision to contribute to T-Pot.
 
 ## Issues
 
-Please feel free to post your problems, ideas and issues [here](https://github.com/dtag-dev-sec/tpotce/issues). We will try to answer ASAP, but to speed things up we encourage you to ...
-- [ ] Use the [search function](https://github.com/dtag-dev-sec/tpotce/issues?utf8=%E2%9C%93&q=) first
-- [ ] Check the FAQs in our [WIKI](https://github.com/dtag-dev-sec/tpotce/wiki)
+Please feel free to post your problems, ideas and issues [here](https://github.com/codexgigassys/tpotce/issues). We will try to answer ASAP, but to speed things up we encourage you to ...
+- [ ] Use the [search function](https://github.com/codexgigassys/tpotce/issues?utf8=%E2%9C%93&q=) first
+- [ ] Check the FAQs in our [WIKI](https://github.com/codexgigassys/tpotce/wiki)
 - [ ] Provide [basic support information](#info) with regard to your issue
 
 Thank you :smiley:

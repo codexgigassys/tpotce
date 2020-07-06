@@ -8,7 +8,7 @@ services:
     container_name: dionaea
     stdin_open: true
     tty: true
-    restart: always
+    #restart: always
     network_mode: "host"
     ports:
      - "20:20"
@@ -27,7 +27,7 @@ services:
      - "5060:5060/udp"
      - "5061:5061"
      - "27017:27017"
-    image: "dtagdevsec/dionaea:1811"
+    image: "dtagdevsec/dionaea:2006"
     read_only: true
     volumes:
      - /data/dionaea/roots/ftp:/opt/dionaea/var/dionaea/roots/ftp

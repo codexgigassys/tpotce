@@ -6,7 +6,7 @@ services:
   suricata:
     build: .
     container_name: suricata
-    restart: always
+    #restart: always
     environment:
     # For ET Pro ruleset replace "OPEN" with your OINKCODE
      - OINKCODE=OPEN
@@ -15,6 +15,6 @@ services:
      - NET_ADMIN
      - SYS_NICE
      - NET_RAW
-    image: "dtagdevsec/suricata:1811"
+    image: "dtagdevsec/suricata:2006"
     volumes:
      - /data/suricata/log:/var/log/suricata

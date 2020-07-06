@@ -9,12 +9,12 @@ services:
   medpot:
     build: .
     container_name: medpot
-    restart: always
+    #restart: always
     networks:
      - medpot_local
     ports:
      - "2575:2575"
-    image: "dtagdevsec/medpot:1811"
+    image: "dtagdevsec/medpot:2006"
     read_only: true
     volumes:
      - /data/medpot/log/:/var/log/medpot
